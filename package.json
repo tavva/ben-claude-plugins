@@ -1,0 +1,11 @@
+{
+  "name": "obsidian-agent-tools",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "CDP tools for Obsidian plugin development and testing",
+  "author": "Ben Phillips",
+  "license": "MIT",
+  "dependencies": {
+    "ws": "^8.18.0"
+  }
+}
