@@ -13,7 +13,7 @@ My plugins for Claude Code.
 | Plugin | Description |
 |--------|-------------|
 | [obsidian-agent-tools](plugins/obsidian-agent-tools) | CDP tools for Obsidian plugin development and testing |
-| [readme-generator](plugins/readme-generator) | Generate excellent README files following best practices |
+| [readme-generator](plugins/readme-generator) | Generate excellent README files following best practices from https://github.com/matiassingers/awesome-readme |
 
 ## Licence
 
