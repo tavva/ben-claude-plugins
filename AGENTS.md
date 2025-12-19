@@ -10,6 +10,7 @@ Claude Code plugin marketplace. Plugins live in `plugins/<plugin-name>/` and fol
 
 | Plugin | Description |
 |--------|-------------|
+| browser-server | Multi-session browser server with isolated contexts for agent automation |
 | obsidian-agent-tools | CDP tools for Obsidian plugin development and testing |
 | readme-generator | Generate README files following best practices |
 

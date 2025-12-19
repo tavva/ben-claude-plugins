@@ -1,0 +1,13 @@
+{
+  "name": "browser-server",
+  "version": "1.0.0",
+  "description": "Multi-session browser server with isolated contexts per agent",
+  "type": "module",
+  "scripts": {
+    "start": "node scripts/browser-start.js",
+    "server": "node scripts/browser-server.js"
+  },
+  "dependencies": {
+    "puppeteer-core": "^24.0.0"
+  }
+}
