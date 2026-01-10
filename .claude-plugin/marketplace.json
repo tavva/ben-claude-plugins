@@ -29,6 +29,14 @@
       "version": "1.2.0",
       "category": "automation",
       "tags": ["browser", "automation", "cdp", "scraping"]
+    },
+    {
+      "name": "langfuse",
+      "description": "Query Langfuse LLM observability platform via the lf CLI",
+      "source": "./plugins/langfuse",
+      "version": "0.1.0",
+      "category": "observability",
+      "tags": ["langfuse", "llm", "observability", "tracing", "metrics"]
     }
   ]
 }
