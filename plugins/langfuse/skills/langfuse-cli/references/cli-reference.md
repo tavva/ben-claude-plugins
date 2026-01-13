@@ -201,6 +201,141 @@ lf metrics query \
   --dimensions environment
 ```
 
+### lf prompts list
+
+List prompts with optional filters.
+
+| Option | Description |
+|--------|-------------|
+| `-n, --name <NAME>` | Filter by prompt name |
+| `-l, --label <LABEL>` | Filter by label |
+| `-t, --tag <TAG>` | Filter by tag |
+| `--limit <N>` | Max results (default: 50) |
+| `--page <N>` | Page number (default: 1) |
+
+### lf prompts get
+
+Get a specific prompt by name.
+
+```bash
+lf prompts get <NAME>
+```
+
+| Option | Description |
+|--------|-------------|
+| `--version <N>` | Specific version number |
+| `-l, --label <LABEL>` | Fetch by label (default: production) |
+| `--raw` | Output raw content only (for piping) |
+
+**Examples:**
+
+```bash
+# Get production version
+lf prompts get my-prompt
+
+# Get specific version
+lf prompts get my-prompt --version 3
+
+# Get staging version
+lf prompts get my-prompt --label staging
+
+# Get raw content for piping
+lf prompts get my-prompt --raw > prompt.txt
+```
+
+### lf prompts create-text
+
+Create a text prompt.
+
+| Option | Description |
+|--------|-------------|
+| `--name <NAME>` | Prompt name (required) |
+| `-f, --file <FILE>` | Read content from file (stdin if omitted) |
+| `-l, --labels <LABELS>` | Labels to apply |
+| `-t, --tags <TAGS>` | Tags to apply |
+| `--config <JSON>` | Model config as JSON string |
+
+**Examples:**
+
+```bash
+# Create from file
+lf prompts create-text --name my-prompt -f prompt.txt
+
+# Create from stdin
+echo "You are a helpful assistant." | lf prompts create-text --name my-prompt
+
+# Create with labels and config
+lf prompts create-text --name my-prompt -f prompt.txt \
+  --labels production \
+  --tags summarisation \
+  --config '{"model": "gpt-4", "temperature": 0.7}'
+```
+
+### lf prompts create-chat
+
+Create a chat prompt from JSON messages.
+
+| Option | Description |
+|--------|-------------|
+| `--name <NAME>` | Prompt name (required) |
+| `-f, --file <FILE>` | Read JSON messages from file (stdin if omitted) |
+| `-l, --labels <LABELS>` | Labels to apply |
+| `-t, --tags <TAGS>` | Tags to apply |
+| `--config <JSON>` | Model config as JSON string |
+
+**Messages JSON format:**
+
+```json
+[
+  {"role": "system", "content": "You are a helpful assistant."},
+  {"role": "user", "content": "{{user_input}}"}
+]
+```
+
+### lf prompts label
+
+Set labels on a prompt version.
+
+```bash
+lf prompts label <NAME> <VERSION> --labels <LABELS>
+```
+
+**Examples:**
+
+```bash
+# Promote version 5 to production
+lf prompts label my-prompt 5 --labels production
+
+# Set multiple labels
+lf prompts label my-prompt 5 --labels production --labels reviewed
+```
+
+### lf prompts delete
+
+Delete a prompt or specific version.
+
+```bash
+lf prompts delete <NAME>
+```
+
+| Option | Description |
+|--------|-------------|
+| `--version <N>` | Delete specific version only |
+| `-l, --label <LABEL>` | Delete versions with this label only |
+
+**Examples:**
+
+```bash
+# Delete entire prompt
+lf prompts delete old-prompt
+
+# Delete specific version
+lf prompts delete my-prompt --version 2
+
+# Delete all staging versions
+lf prompts delete my-prompt --label staging
+```
+
 ## Timestamp Format
 
 All timestamp filters use ISO 8601 format:

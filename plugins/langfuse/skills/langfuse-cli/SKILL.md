@@ -1,11 +1,11 @@
 ---
 name: langfuse-cli
-description: This skill should be used when the user asks to "query Langfuse traces", "show sessions", "check LLM costs", "analyse token usage", "view observations", "get scores", "query metrics", or mentions Langfuse, traces, or LLM observability. Also triggers on requests to analyse API latency, debug LLM calls, or investigate model performance.
+description: This skill should be used when the user asks to "query Langfuse traces", "show sessions", "check LLM costs", "analyse token usage", "view observations", "get scores", "query metrics", or mentions Langfuse, traces, or LLM observability. Also triggers on requests to analyse API latency, debug LLM calls, or investigate model performance. Use for prompt management tasks like "list prompts", "get prompt", "create prompt", "update prompt labels", or "deploy prompt to production".
 ---
 
 # Langfuse CLI (`lf`)
 
-Command-line interface for querying the Langfuse LLM observability platform. Query traces, sessions, observations, scores, and metrics with flexible filtering and output formats.
+Command-line interface for the Langfuse LLM observability platform. Query traces, sessions, observations, scores, and metrics. Manage prompts with versioning and labels.
 
 ## Quick Reference
 
@@ -19,6 +19,12 @@ lf observations get <ID>       # Get specific observation
 lf scores list [OPTIONS]       # List scores
 lf scores get <ID>             # Get specific score
 lf metrics query [OPTIONS]     # Query aggregated metrics
+lf prompts list [OPTIONS]      # List prompts
+lf prompts get <NAME>          # Get prompt (by label or version)
+lf prompts create-text         # Create text prompt
+lf prompts create-chat         # Create chat prompt
+lf prompts label <NAME> <VER>  # Set labels on prompt version
+lf prompts delete <NAME>       # Delete prompt
 ```
 
 ## Common Tasks
@@ -102,6 +108,52 @@ lf observations list --trace-id tr-abc123
 
 # Check scores for a trace
 lf scores list --trace-id tr-abc123
+```
+
+### Manage Prompts
+
+```bash
+# List all prompts
+lf prompts list
+
+# Filter by label or tag
+lf prompts list --label production
+lf prompts list --tag summarisation
+
+# Get production version of a prompt
+lf prompts get my-prompt
+
+# Get specific version or label
+lf prompts get my-prompt --version 3
+lf prompts get my-prompt --label staging
+
+# Get raw content (for piping)
+lf prompts get my-prompt --raw > prompt.txt
+```
+
+### Create and Update Prompts
+
+```bash
+# Create text prompt from file
+lf prompts create-text --name my-prompt -f prompt.txt
+
+# Create from stdin
+echo "You are a helpful assistant." | lf prompts create-text --name my-prompt
+
+# Create with labels and config
+lf prompts create-text --name my-prompt -f prompt.txt \
+  --labels production --tags summarisation \
+  --config '{"model": "gpt-4", "temperature": 0.7}'
+
+# Create chat prompt from JSON
+lf prompts create-chat --name chat-prompt -f messages.json
+
+# Label a version as production
+lf prompts label my-prompt 5 --labels production
+
+# Delete a prompt
+lf prompts delete old-prompt
+lf prompts delete my-prompt --version 2
 ```
 
 ## Output Formats

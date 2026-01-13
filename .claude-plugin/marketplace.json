@@ -32,11 +32,11 @@
     },
     {
       "name": "langfuse",
-      "description": "Query Langfuse LLM observability platform via the lf CLI",
+      "description": "Query Langfuse LLM observability platform and manage prompts via the lf CLI",
       "source": "./plugins/langfuse",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "category": "observability",
-      "tags": ["langfuse", "llm", "observability", "tracing", "metrics"]
+      "tags": ["langfuse", "llm", "observability", "tracing", "metrics", "prompts"]
     }
   ]
 }

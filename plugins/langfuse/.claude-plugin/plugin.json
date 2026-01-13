@@ -1,4 +1,4 @@
 {
   "name": "langfuse",
-  "description": "Tools for interacting with Langfuse LLM observability platform via the lf CLI"
+  "description": "Query Langfuse LLM observability platform and manage prompts via the lf CLI"
 }
