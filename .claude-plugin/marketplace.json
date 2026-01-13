@@ -1,6 +1,6 @@
 {
   "name": "ben-claude-plugins",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Ben's Claude Code plugins",
   "owner": {
     "name": "Ben Phillips"
@@ -34,7 +34,7 @@
       "name": "langfuse",
       "description": "Query Langfuse LLM observability platform and manage prompts via the lf CLI",
       "source": "./plugins/langfuse",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "category": "observability",
       "tags": ["langfuse", "llm", "observability", "tracing", "metrics", "prompts", "scores"]
     }
