@@ -1,6 +1,6 @@
 ---
 name: langfuse-cli
-description: This skill should be used when the user asks to "query Langfuse traces", "show sessions", "check LLM costs", "analyse token usage", "view observations", "get scores", "query metrics", or mentions Langfuse, traces, or LLM observability. Also triggers on requests to analyse API latency, debug LLM calls, or investigate model performance. Use for prompt management tasks like "list prompts", "get prompt", "create prompt", "update prompt labels", or "deploy prompt to production".
+description: This skill should be used when the user asks to "query Langfuse traces", "show sessions", "check LLM costs", "analyse token usage", "view observations", "get scores", "create score", "add score to trace", "query metrics", or mentions Langfuse, traces, or LLM observability. Also triggers on requests to analyse API latency, debug LLM calls, or investigate model performance. Use for prompt management tasks like "list prompts", "get prompt", "create prompt", "update prompt labels", or "deploy prompt to production".
 ---
 
 # Langfuse CLI (`lf`)
@@ -18,6 +18,7 @@ lf observations list [OPTIONS] # List observations (spans/generations)
 lf observations get <ID>       # Get specific observation
 lf scores list [OPTIONS]       # List scores
 lf scores get <ID>             # Get specific score
+lf scores create [OPTIONS]     # Create a new score
 lf metrics query [OPTIONS]     # Query aggregated metrics
 lf prompts list [OPTIONS]      # List prompts
 lf prompts get <NAME>          # Get prompt (by label or version)
@@ -108,6 +109,25 @@ lf observations list --trace-id tr-abc123
 
 # Check scores for a trace
 lf scores list --trace-id tr-abc123
+```
+
+### Create Scores
+
+```bash
+# Score a trace
+lf scores create --name accuracy --value 0.95 --trace-id tr-abc123
+
+# Score an observation with comment
+lf scores create --name relevance --value 0.8 \
+  --observation-id obs-xyz789 --comment "Good but could be more specific"
+
+# Categorical score
+lf scores create --name sentiment --value 1 \
+  --data-type CATEGORICAL --trace-id tr-abc123
+
+# Boolean score
+lf scores create --name approved --value 1 \
+  --data-type BOOLEAN --trace-id tr-abc123
 ```
 
 ### Manage Prompts

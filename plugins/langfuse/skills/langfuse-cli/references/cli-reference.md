@@ -132,6 +132,43 @@ Get a specific score by ID.
 lf scores get <SCORE_ID>
 ```
 
+### lf scores create
+
+Create a new score attached to a trace, observation, or session.
+
+| Option | Description |
+|--------|-------------|
+| `-n, --name <NAME>` | Score name (required, e.g., "accuracy", "relevance") |
+| `-v, --value <VALUE>` | Score value (required, numeric) |
+| `-t, --trace-id <ID>` | Trace ID to attach the score to |
+| `--observation-id <ID>` | Observation ID to attach the score to |
+| `--session-id <ID>` | Session ID to attach the score to |
+| `-d, --data-type <TYPE>` | Data type: NUMERIC, CATEGORICAL, BOOLEAN |
+| `-c, --comment <TEXT>` | Comment or annotation |
+
+**Examples:**
+
+```bash
+# Score a trace with numeric value
+lf scores create --name accuracy --value 0.95 --trace-id tr-abc123
+
+# Score an observation with comment
+lf scores create --name relevance --value 0.8 \
+  --observation-id obs-xyz789 \
+  --comment "Good but could be more specific"
+
+# Categorical score (e.g., sentiment: -1, 0, 1)
+lf scores create --name sentiment --value 1 \
+  --data-type CATEGORICAL --trace-id tr-abc123
+
+# Boolean score (0 or 1)
+lf scores create --name approved --value 1 \
+  --data-type BOOLEAN --trace-id tr-abc123
+
+# Score a session
+lf scores create --name satisfaction --value 4 --session-id sess-123
+```
+
 ### lf metrics query
 
 Query aggregated metrics with flexible dimensions.
