@@ -1,7 +1,5 @@
 {
   "name": "eval-designer",
   "version": "0.1.0",
-  "description": "Design production-quality LLM evaluations for Langfuse",
-  "category": "development",
-  "tags": ["langfuse", "evals", "llm", "testing", "quality"]
+  "description": "Design production-quality LLM evaluations for Langfuse"
 }
