@@ -1,11 +1,11 @@
 ---
 name: langfuse-cli
-description: This skill should be used when the user asks to "query Langfuse traces", "show sessions", "check LLM costs", "analyse token usage", "view observations", "get scores", "create score", "add score to trace", "query metrics", or mentions Langfuse, traces, or LLM observability. Also triggers on requests to analyse API latency, debug LLM calls, or investigate model performance. Use for prompt management tasks like "list prompts", "get prompt", "create prompt", "update prompt labels", or "deploy prompt to production".
+description: This skill should be used when the user asks to "query Langfuse traces", "show sessions", "check LLM costs", "analyse token usage", "view observations", "get scores", "create score", "add score to trace", "query metrics", or mentions Langfuse, traces, or LLM observability. Also triggers on requests to analyse API latency, debug LLM calls, or investigate model performance. Use for prompt management tasks like "list prompts", "get prompt", "create prompt", "update prompt labels", or "deploy prompt to production". Use for dataset management tasks like "list datasets", "create dataset", "add dataset item", "view dataset runs", or "manage evaluation datasets".
 ---
 
 # Langfuse CLI (`lf`)
 
-Command-line interface for the Langfuse LLM observability platform. Query traces, sessions, observations, scores, and metrics. Manage prompts with versioning and labels.
+Command-line interface for the Langfuse LLM observability platform. Query traces, sessions, observations, scores, and metrics. Manage prompts with versioning and labels. Manage datasets for evaluation.
 
 ## Quick Reference
 
@@ -26,6 +26,14 @@ lf prompts create-text         # Create text prompt (-m for commit message)
 lf prompts create-chat         # Create chat prompt (-m for commit message)
 lf prompts label <NAME> <VER>  # Set labels on prompt version
 lf prompts delete <NAME>       # Delete prompt
+lf datasets list [OPTIONS]     # List datasets
+lf datasets get <NAME>         # Get dataset by name
+lf datasets create <NAME>      # Create a new dataset
+lf datasets items [OPTIONS]    # List dataset items (--dataset to filter)
+lf datasets item-get <ID>      # Get dataset item by ID
+lf datasets item-create        # Create dataset item (--dataset, --input required)
+lf datasets runs <DATASET>     # List runs for a dataset
+lf datasets run-get <DS> <RUN> # Get a specific run
 ```
 
 ## Common Tasks
@@ -181,6 +189,64 @@ lf prompts label my-prompt 5 --labels production
 # Delete a prompt
 lf prompts delete old-prompt
 lf prompts delete my-prompt --version 2
+```
+
+### Manage Datasets
+
+Datasets store input/output pairs for evaluation. Items can be created manually or from existing traces.
+
+```bash
+# List all datasets
+lf datasets list
+
+# Create a dataset
+lf datasets create my-eval-dataset -d "Test cases for summarisation"
+
+# Create with metadata
+lf datasets create my-eval-dataset \
+  -d "Test cases for summarisation" \
+  -m '{"version": "1.0", "owner": "team-ml"}'
+
+# Get dataset details
+lf datasets get my-eval-dataset
+```
+
+### Add Dataset Items
+
+```bash
+# Create item with input and expected output
+lf datasets item-create --dataset my-eval-dataset \
+  --input '{"text": "Long article content..."}' \
+  --expected-output '{"summary": "Brief summary..."}'
+
+# Create item from existing trace
+lf datasets item-create --dataset my-eval-dataset \
+  --input '{"prompt": "Summarise this"}' \
+  --source-trace-id tr-abc123
+
+# Create item with metadata
+lf datasets item-create --dataset my-eval-dataset \
+  --input '{"text": "Content"}' \
+  --expected-output '{"result": "Expected"}' \
+  --metadata '{"category": "short-form", "difficulty": "easy"}'
+
+# List items in a dataset
+lf datasets items --dataset my-eval-dataset
+
+# Get specific item
+lf datasets item-get item-abc123
+```
+
+### View Dataset Runs
+
+Runs represent evaluation executions against a dataset.
+
+```bash
+# List runs for a dataset
+lf datasets runs my-eval-dataset
+
+# Get details of a specific run
+lf datasets run-get my-eval-dataset run-2024-01-15
 ```
 
 ## Output Formats

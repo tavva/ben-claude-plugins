@@ -393,6 +393,149 @@ lf prompts delete my-prompt --version 2
 lf prompts delete my-prompt --label staging
 ```
 
+### lf datasets list
+
+List datasets.
+
+| Option | Description |
+|--------|-------------|
+| `-l, --limit <N>` | Max results (default: 50) |
+| `-p, --page <N>` | Page number (default: 1) |
+
+```bash
+lf datasets list
+lf datasets list --limit 100
+```
+
+### lf datasets get
+
+Get a dataset by name.
+
+```bash
+lf datasets get <NAME>
+
+# Example
+lf datasets get my-eval-dataset
+```
+
+### lf datasets create
+
+Create a new dataset.
+
+| Option | Description |
+|--------|-------------|
+| `-d, --description <TEXT>` | Dataset description |
+| `-m, --metadata <JSON>` | Metadata as JSON string |
+
+```bash
+# Create simple dataset
+lf datasets create my-eval-dataset
+
+# Create with description
+lf datasets create my-eval-dataset -d "Test cases for summarisation"
+
+# Create with metadata
+lf datasets create my-eval-dataset \
+  -d "Test cases" \
+  -m '{"version": "1.0", "owner": "team-ml"}'
+```
+
+### lf datasets items
+
+List dataset items.
+
+| Option | Description |
+|--------|-------------|
+| `-d, --dataset <NAME>` | Filter by dataset name |
+| `-l, --limit <N>` | Max results (default: 50) |
+| `-p, --page <N>` | Page number (default: 1) |
+
+```bash
+# List all items
+lf datasets items
+
+# List items for specific dataset
+lf datasets items --dataset my-eval-dataset
+```
+
+### lf datasets item-get
+
+Get a dataset item by ID.
+
+```bash
+lf datasets item-get <ID>
+
+# Example
+lf datasets item-get item-abc123def456
+```
+
+### lf datasets item-create
+
+Create a dataset item.
+
+| Option | Description |
+|--------|-------------|
+| `-d, --dataset <NAME>` | Dataset name (required) |
+| `-i, --input <JSON>` | Input data as JSON string (required) |
+| `-e, --expected-output <JSON>` | Expected output as JSON string |
+| `-m, --metadata <JSON>` | Metadata as JSON string |
+| `--source-trace-id <ID>` | Source trace ID (for linking) |
+| `--source-observation-id <ID>` | Source observation ID (for linking) |
+
+**Examples:**
+
+```bash
+# Create item with input and expected output
+lf datasets item-create --dataset my-eval-dataset \
+  --input '{"text": "Long article content..."}' \
+  --expected-output '{"summary": "Brief summary..."}'
+
+# Create item from existing trace
+lf datasets item-create --dataset my-eval-dataset \
+  --input '{"prompt": "Summarise this article"}' \
+  --source-trace-id tr-abc123
+
+# Create item with metadata
+lf datasets item-create --dataset my-eval-dataset \
+  --input '{"text": "Content to process"}' \
+  --expected-output '{"result": "Expected output"}' \
+  --metadata '{"category": "short-form", "difficulty": "easy"}'
+
+# Create item linked to specific observation
+lf datasets item-create --dataset my-eval-dataset \
+  --input '{"query": "What is X?"}' \
+  --source-trace-id tr-abc123 \
+  --source-observation-id obs-xyz789
+```
+
+### lf datasets runs
+
+List runs for a dataset.
+
+| Option | Description |
+|--------|-------------|
+| `-l, --limit <N>` | Max results (default: 50) |
+| `-p, --page <N>` | Page number (default: 1) |
+
+```bash
+lf datasets runs <DATASET>
+
+# Example
+lf datasets runs my-eval-dataset
+lf datasets runs my-eval-dataset --limit 10
+```
+
+### lf datasets run-get
+
+Get a specific run.
+
+```bash
+lf datasets run-get <DATASET> <RUN>
+
+# Example
+lf datasets run-get my-eval-dataset run-2024-01-15
+```
+
 ## Timestamp Format
 
 All timestamp filters use ISO 8601 format:
