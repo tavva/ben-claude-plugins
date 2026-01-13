@@ -11,10 +11,10 @@ Command-line interface for the Langfuse LLM observability platform. Query traces
 
 ```
 lf traces list [OPTIONS]       # List traces with filters
-lf traces get <ID>             # Get specific trace
+lf traces get <ID>             # Get specific trace (--with-observations)
 lf sessions list [OPTIONS]     # List sessions
-lf sessions show <ID>          # Show session details
-lf observations list [OPTIONS] # List observations (spans/generations)
+lf sessions show <ID>          # Show session details (--with-traces)
+lf observations list [OPTIONS] # List observations (spans/generations/events)
 lf observations get <ID>       # Get specific observation
 lf scores list [OPTIONS]       # List scores
 lf scores get <ID>             # Get specific score
@@ -22,8 +22,8 @@ lf scores create [OPTIONS]     # Create a new score
 lf metrics query [OPTIONS]     # Query aggregated metrics
 lf prompts list [OPTIONS]      # List prompts
 lf prompts get <NAME>          # Get prompt (by label or version)
-lf prompts create-text         # Create text prompt
-lf prompts create-chat         # Create chat prompt
+lf prompts create-text         # Create text prompt (-m for commit message)
+lf prompts create-chat         # Create chat prompt (-m for commit message)
 lf prompts label <NAME> <VER>  # Set labels on prompt version
 lf prompts delete <NAME>       # Delete prompt
 ```
@@ -104,11 +104,14 @@ lf metrics query --view observations --measure output-tokens --aggregation sum
 # Get trace details
 lf traces get tr-abc123
 
+# Get trace with all observations included
+lf traces get tr-abc123 --with-observations
+
 # See all observations in a trace
 lf observations list --trace-id tr-abc123
 
 # Check scores for a trace
-lf scores list --trace-id tr-abc123
+lf scores list --name accuracy
 ```
 
 ### Create Scores
@@ -156,6 +159,10 @@ lf prompts get my-prompt --raw > prompt.txt
 ```bash
 # Create text prompt from file
 lf prompts create-text --name my-prompt -f prompt.txt
+
+# Create with commit message documenting the change
+lf prompts create-text --name my-prompt -f prompt.txt \
+  -m "Add context about user preferences"
 
 # Create from stdin
 echo "You are a helpful assistant." | lf prompts create-text --name my-prompt

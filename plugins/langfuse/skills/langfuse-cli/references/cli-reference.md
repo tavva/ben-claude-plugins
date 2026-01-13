@@ -21,10 +21,11 @@ These options apply to all commands that interact with the Langfuse API:
 Manage configuration profiles.
 
 ```bash
-lf config setup              # Interactive profile setup
-lf config set <key> <value>  # Set config value
-lf config show               # Show current config
-lf config list               # List all profiles
+lf config setup                       # Interactive profile setup
+lf config setup --non-interactive     # Use env vars instead of prompts
+lf config set --public-key <K> ...    # Set config for a profile
+lf config show                        # Show current config
+lf config list                        # List all profiles
 ```
 
 ### lf traces list
@@ -62,11 +63,18 @@ lf traces list --format json --output traces.json
 
 Get a specific trace by ID.
 
+| Option | Description |
+|--------|-------------|
+| `--with-observations` | Include observations in the response |
+
 ```bash
 lf traces get <TRACE_ID>
 
 # Example
 lf traces get tr-abc123def456
+
+# Include observations
+lf traces get tr-abc123def456 --with-observations
 ```
 
 ### lf sessions list
@@ -84,19 +92,27 @@ List sessions with optional filters.
 
 Show details of a specific session.
 
+| Option | Description |
+|--------|-------------|
+| `--with-traces` | Include associated traces in the response |
+
 ```bash
 lf sessions show <SESSION_ID>
+
+# Include traces
+lf sessions show sess-abc123 --with-traces
 ```
 
 ### lf observations list
 
-List observations (spans and generations).
+List observations (spans, generations, and events).
 
 | Option | Description |
 |--------|-------------|
-| `--trace-id <ID>` | Filter by trace ID |
-| `--type <TYPE>` | Filter by type (span, generation) |
-| `--name <NAME>` | Filter by observation name |
+| `-t, --trace-id <ID>` | Filter by trace ID |
+| `-n, --name <NAME>` | Filter by observation name |
+| `--type <TYPE>` | Filter by type (span, generation, event) |
+| `-u, --user-id <ID>` | Filter by user ID |
 | `--from <ISO8601>` | Start timestamp |
 | `--to <ISO8601>` | End timestamp |
 | `-l, --limit <N>` | Max results (default: 50) |
@@ -116,9 +132,7 @@ List scores with optional filters.
 
 | Option | Description |
 |--------|-------------|
-| `--trace-id <ID>` | Filter by trace ID |
-| `--observation-id <ID>` | Filter by observation ID |
-| `--name <NAME>` | Filter by score name |
+| `-n, --name <NAME>` | Filter by score name |
 | `--from <ISO8601>` | Start timestamp |
 | `--to <ISO8601>` | End timestamp |
 | `-l, --limit <N>` | Max results (default: 50) |
@@ -288,6 +302,7 @@ Create a text prompt.
 |--------|-------------|
 | `--name <NAME>` | Prompt name (required) |
 | `-f, --file <FILE>` | Read content from file (stdin if omitted) |
+| `-m, --message <TEXT>` | Commit message for this version |
 | `-l, --labels <LABELS>` | Labels to apply |
 | `-t, --tags <TAGS>` | Tags to apply |
 | `--config <JSON>` | Model config as JSON string |
@@ -297,6 +312,10 @@ Create a text prompt.
 ```bash
 # Create from file
 lf prompts create-text --name my-prompt -f prompt.txt
+
+# Create with commit message
+lf prompts create-text --name my-prompt -f prompt.txt \
+  -m "Add context about user preferences"
 
 # Create from stdin
 echo "You are a helpful assistant." | lf prompts create-text --name my-prompt
@@ -316,6 +335,7 @@ Create a chat prompt from JSON messages.
 |--------|-------------|
 | `--name <NAME>` | Prompt name (required) |
 | `-f, --file <FILE>` | Read JSON messages from file (stdin if omitted) |
+| `-m, --message <TEXT>` | Commit message for this version |
 | `-l, --labels <LABELS>` | Labels to apply |
 | `-t, --tags <TAGS>` | Tags to apply |
 | `--config <JSON>` | Model config as JSON string |
