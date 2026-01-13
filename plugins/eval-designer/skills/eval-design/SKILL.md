@@ -1,11 +1,11 @@
 ---
 name: eval-design
 description: >
-  Use when designing LLM evaluations, creating scoring rubrics,
-  building golden datasets, setting up LLM-as-judge, or asking
-  "how do I know if my LLM is working". Also triggers on
-  "eval", "evaluation", "quality metrics", "test my outputs",
-  "measure accuracy", "scoring", "judge prompt".
+  This skill should be used when the user asks "what evals can we create",
+  "how do I evaluate this", "design an eval", "create evals for",
+  "how do I know if my LLM is working", "measure quality", or mentions
+  evals, evaluation, scoring rubrics, golden datasets, LLM-as-judge,
+  quality metrics, or judge prompts.
 ---
 
 # Eval Design
