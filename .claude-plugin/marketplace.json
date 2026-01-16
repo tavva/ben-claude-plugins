@@ -45,6 +45,14 @@
       "version": "0.1.0",
       "category": "development",
       "tags": ["langfuse", "evals", "llm", "testing", "quality"]
+    },
+    {
+      "name": "resend",
+      "description": "Send emails and manage domains, API keys, and templates via the Resend CLI",
+      "source": "./plugins/resend",
+      "version": "0.1.0",
+      "category": "email",
+      "tags": ["resend", "email", "transactional", "domains", "templates"]
     }
   ]
 }

@@ -15,5 +15,6 @@ Claude Code plugin marketplace. Plugins live in `plugins/<plugin-name>/` and fol
 | langfuse | Query Langfuse LLM observability platform via the lf CLI |
 | obsidian-agent-tools | CDP tools for Obsidian plugin development and testing |
 | readme-generator | Generate README files following best practices |
+| resend | Send emails and manage domains via the Resend CLI |
 
 Plugins with code have their own AGENTS.md with build/run instructions.
