@@ -66,6 +66,7 @@ Get a specific trace by ID.
 | Option | Description |
 |--------|-------------|
 | `--with-observations` | Include observations in the response |
+| `--summary` | Strip large input/output fields from observations, keeping only metadata (requires `--with-observations`) |
 
 ```bash
 lf traces get <TRACE_ID>
@@ -73,7 +74,10 @@ lf traces get <TRACE_ID>
 # Example
 lf traces get tr-abc123def456
 
-# Include observations
+# Include observation metadata (recommended for investigation)
+lf traces get tr-abc123def456 --with-observations --summary
+
+# Include full observations with input/output content
 lf traces get tr-abc123def456 --with-observations
 ```
 

@@ -112,8 +112,14 @@ lf metrics query --view observations --measure output-tokens --aggregation sum
 # Get trace details
 lf traces get tr-abc123
 
-# Get trace with all observations included
+# Get trace with observation metadata (recommended - faster, less noise)
+lf traces get tr-abc123 --with-observations --summary
+
+# Get trace with full observation content (large input/output fields)
 lf traces get tr-abc123 --with-observations
+
+# Fetch full content for a specific observation when needed
+lf observations get obs-xyz789
 
 # See all observations in a trace
 lf observations list --trace-id tr-abc123
