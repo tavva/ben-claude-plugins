@@ -16,5 +16,6 @@ Claude Code plugin marketplace. Plugins live in `plugins/<plugin-name>/` and fol
 | obsidian-agent-tools | CDP tools for Obsidian plugin development and testing |
 | readme-generator | Generate README files following best practices |
 | resend | Send emails and manage domains via the Resend CLI |
+| sprite | Manage Sprites - persistent, isolated Linux microVMs for safe code execution |
 
 Plugins with code have their own AGENTS.md with build/run instructions.
