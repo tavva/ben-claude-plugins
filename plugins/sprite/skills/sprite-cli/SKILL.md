@@ -18,6 +18,7 @@ sprite use --unset               # Remove sprite association
 sprite list                      # List all sprites (alias: ls)
 sprite destroy [-f] <name>       # Remove a sprite
 sprite exec <command>            # Run command in sprite (alias: x)
+sprite exec -file src:dst <cmd>  # Upload file before execution
 sprite console                   # Open interactive shell (alias: c)
 sprite checkpoint create [-c]    # Save current state
 sprite checkpoint list           # List checkpoints (alias: ls)
@@ -66,8 +67,8 @@ sprite x python script.py
 # With environment variables
 sprite exec -e API_KEY=secret ./run.sh
 
-# Upload a file before execution
-sprite exec -f ./local-file.txt cat /tmp/local-file.txt
+# Upload a file before execution (source:dest format)
+sprite exec -file ./local-file.txt:/tmp/local-file.txt cat /tmp/local-file.txt
 
 # Run with TTY (for interactive commands)
 sprite exec -t vim file.txt
