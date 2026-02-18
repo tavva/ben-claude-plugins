@@ -10,7 +10,7 @@ Claude Code plugin marketplace. Plugins live in `plugins/<plugin-name>/` and fol
 
 | Plugin | Description |
 |--------|-------------|
-| browser-server | Multi-session browser server with isolated contexts for agent automation |
+| rodney | Browser automation via the rodney CLI for web scraping, frontend verification, and page interaction |
 | eval-designer | Design production-quality LLM evaluations for Langfuse |
 | langfuse | Query Langfuse LLM observability platform via the lf CLI |
 | obsidian-agent-tools | CDP tools for Obsidian plugin development and testing |

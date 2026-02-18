@@ -1,5 +1,0 @@
-{
-  "name": "browser-server",
-  "version": "1.2.0",
-  "description": "Multi-session browser server for agent browser automation with isolated contexts"
-}

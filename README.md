@@ -12,7 +12,7 @@ My plugins for Claude Code.
 
 | Plugin | Description |
 |--------|-------------|
-| [browser-server](plugins/browser-server) | Multi-session browser server for agent browser automation with isolated contexts |
+| [rodney](plugins/rodney) | Browser automation via the rodney CLI for web scraping, frontend verification, and page interaction |
 | [eval-designer](plugins/eval-designer) | Design production-quality LLM evaluations for Langfuse |
 | [langfuse](plugins/langfuse) | Query Langfuse LLM observability platform via the lf CLI |
 | [obsidian-agent-tools](plugins/obsidian-agent-tools) | CDP tools for Obsidian plugin development and testing |

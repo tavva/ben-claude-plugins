@@ -1,0 +1,5 @@
+{
+  "name": "rodney",
+  "version": "0.1.0",
+  "description": "Browser automation via the rodney CLI for web scraping, frontend verification, and page interaction"
+}
