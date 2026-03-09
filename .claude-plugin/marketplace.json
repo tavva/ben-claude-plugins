@@ -8,11 +8,11 @@
   "plugins": [
     {
       "name": "obsidian-agent-tools",
-      "description": "CDP tools for Obsidian plugin development and testing",
+      "description": "Obsidian CLI tools for plugin development, testing, and vault automation",
       "source": "./plugins/obsidian-agent-tools",
-      "version": "0.1.1",
+      "version": "0.2.0",
       "category": "development",
-      "tags": ["obsidian", "testing", "automation", "cdp"]
+      "tags": ["obsidian", "testing", "automation", "cli"]
     },
     {
       "name": "readme-generator",
