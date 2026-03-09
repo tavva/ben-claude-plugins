@@ -19,3 +19,13 @@ Claude Code plugin marketplace. Plugins live in `plugins/<plugin-name>/` and fol
 | sprite | Manage Sprites - persistent, isolated Linux microVMs for safe code execution |
 
 Plugins with code have their own AGENTS.md with build/run instructions.
+
+## Updating a Plugin
+
+When making changes to a plugin, update all of these:
+
+1. **Plugin files** — make your changes in `plugins/<plugin-name>/`
+2. **`plugins/<plugin-name>/.claude-plugin/plugin.json`** — bump version, update description if needed
+3. **`.claude-plugin/marketplace.json`** — update the plugin's version, description, and tags to match
+4. **`AGENTS.MD`** — update the plugin table description if it changed
+5. **`README.md`** — update the plugin table description if it changed
