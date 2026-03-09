@@ -3,187 +3,114 @@ name: obsidian-automation
 description: This skill should be used when working on Obsidian plugins, testing plugin changes, verifying plugin UI, debugging plugin behaviour, or running automated tests against Obsidian. Also triggers on "start Obsidian", "take Obsidian screenshot", "test plugin", "run plugin command", "execute in Obsidian", or any Obsidian automation task. Use proactively during plugin development to verify changes visually.
 ---
 
-# Obsidian Automation Tools
+# Obsidian CLI
 
-Chrome DevTools Protocol tools for Obsidian plugin development and testing. These tools launch isolated Obsidian instances with CDP enabled, allowing automated control without interfering with the user's normal Obsidian usage.
-
-## When to Use Proactively
-
-**Use these tools without being asked when:**
-
-- Implementing or modifying Obsidian plugin features - take screenshots to verify UI changes
-- Debugging plugin behaviour - execute commands and inspect state
-- Testing plugin with different vault configurations
-- Verifying that plugin changes work as expected
-- The user mentions something looks wrong in the plugin
-
-**Do not wait for explicit requests.** If working on an Obsidian plugin, proactively start a test instance and take screenshots to verify work.
+The `obsidian` CLI controls a running Obsidian instance from the terminal. Anything you can do in Obsidian you can do from the command line.
 
 ## Prerequisites
 
-Run once to install dependencies:
+- Obsidian 1.12+ must be running
+- CLI registered via Settings → General → Command line interface
+
+## Getting Help
 
 ```bash
-cd ${CLAUDE_PLUGIN_ROOT} && npm install
+obsidian help           # List all commands
+obsidian help <command> # Detailed help for a command
 ```
 
-## Available Tools
+Always check `obsidian help <command>` for the full parameter list before using a command you haven't used before.
 
-All tools are in `${CLAUDE_PLUGIN_ROOT}/scripts/`. Run from the plugin directory being developed (where `manifest.json` is located).
+## Command Syntax
 
-### Start Obsidian Instance
+Commands use `parameter=value` pairs and boolean flags:
 
 ```bash
-node ${CLAUDE_PLUGIN_ROOT}/scripts/obsidian-start.js --vault ~/path/to/vault
-node ${CLAUDE_PLUGIN_ROOT}/scripts/obsidian-start.js --empty
+obsidian command parameter=value flag
 ```
 
-Launch an isolated Obsidian instance with CDP enabled. The current directory's plugin (identified by `manifest.json`) is symlinked into the test vault and enabled.
+Target a specific vault with `vault=name` as the first parameter. Target files with `file=name` (wikilink resolution) or `path=exact/path`.
 
-**Options:**
-- `--vault <path>` - Use an existing vault with test data
-- `--empty` - Create a fresh empty vault in temp directory
-- `--port <number>` - CDP port (default: 9223, auto-increments if busy)
+Use `--copy` on any command to copy output to clipboard.
 
-**Output:** JSON with instance details:
-```json
-{
-  "port": 9223,
-  "vault": "/path/to/vault",
-  "wsUrl": "ws://localhost:9223/devtools/page/...",
-  "pluginId": "flow"
-}
-```
+## Capabilities
 
-**Always capture the port** from the output for subsequent commands.
+The CLI covers the full Obsidian feature set:
 
-### Stop Obsidian Instance
+- **Files** — create, read, open, append, prepend, move, rename, delete
+- **Search** — full-text search with context, scoped to folders
+- **Daily notes** — open, read, append, prepend
+- **Properties** — read, set, remove frontmatter properties
+- **Tasks** — list, filter, toggle task status
+- **Links** — backlinks, outgoing links, orphans, unresolved links
+- **Tags** — list, filter, count
+- **Plugins** — list, enable, disable, install, uninstall, reload
+- **Commands** — list and execute any registered command
+- **Developer** — screenshots, JS eval, DOM inspection, console logs, CDP
+
+## Proactive Use
+
+**Use these tools without being asked when:**
+
+- Implementing or modifying Obsidian plugin features — take screenshots to verify UI changes
+- Debugging plugin behaviour — execute commands and inspect state
+- Testing plugin with different vault configurations
+- Verifying that plugin changes work as expected
+
+## Common Workflows
+
+### Plugin Development
 
 ```bash
-node ${CLAUDE_PLUGIN_ROOT}/scripts/obsidian-stop.js --port 9223
-```
+# Reload plugin after code changes
+obsidian plugin:reload id=my-plugin
 
-Stop a running test instance and clean up temp directories. Safe to call even if no instance is running.
-
-### Take Screenshot
-
-```bash
-node ${CLAUDE_PLUGIN_ROOT}/scripts/obsidian-screenshot.js --port 9223
-```
-
-Capture the Obsidian window and save to temp directory. Outputs the file path. **Use frequently** to verify UI changes.
-
-### Execute JavaScript
-
-```bash
-node ${CLAUDE_PLUGIN_ROOT}/scripts/obsidian-eval.js --port 9223 'app.vault.getName()'
-node ${CLAUDE_PLUGIN_ROOT}/scripts/obsidian-eval.js --port 9223 'app.workspace.activeLeaf?.view?.getViewType()'
-```
-
-Execute JavaScript in Obsidian's context. Access the full Obsidian API via the `app` global.
-
-**Common expressions:**
-- `app.vault.getName()` - Get vault name
-- `app.vault.getFiles()` - List all files
-- `app.workspace.activeLeaf` - Get active leaf
-- `app.plugins.plugins` - Access loaded plugins
-- `app.commands.commands` - List available commands
-
-### Execute Command
-
-```bash
-node ${CLAUDE_PLUGIN_ROOT}/scripts/obsidian-command.js --port 9223 'flow:open-focus'
-node ${CLAUDE_PLUGIN_ROOT}/scripts/obsidian-command.js --port 9223 --list
-node ${CLAUDE_PLUGIN_ROOT}/scripts/obsidian-command.js --port 9223 --list | grep flow
-```
-
-Execute an Obsidian command by ID. Use `--list` to see all available commands.
-
-## Typical Workflow
-
-### Testing Against Existing Vault
-
-```bash
-# Start with test vault containing sample data
-node ${CLAUDE_PLUGIN_ROOT}/scripts/obsidian-start.js --vault ~/Documents/flow-dev-vault/flow-dev
-# Output: { "port": 9223, ... }
+# Take a screenshot to verify UI
+obsidian dev:screenshot
 
 # Execute a plugin command
-node ${CLAUDE_PLUGIN_ROOT}/scripts/obsidian-command.js --port 9223 'flow:open-focus'
+obsidian command id=my-plugin:do-something
 
-# Verify visually
-node ${CLAUDE_PLUGIN_ROOT}/scripts/obsidian-screenshot.js --port 9223
+# List all commands from your plugin
+obsidian commands filter=my-plugin
 
-# Inspect state
-node ${CLAUDE_PLUGIN_ROOT}/scripts/obsidian-eval.js --port 9223 'app.workspace.getLeavesOfType("flow-focus").length'
+# Evaluate JS in Obsidian context
+obsidian eval code="app.plugins.plugins['my-plugin'].settings"
 
-# Clean up
-node ${CLAUDE_PLUGIN_ROOT}/scripts/obsidian-stop.js --port 9223
+# Check console for errors
+obsidian dev:errors
+obsidian dev:console level=error
 ```
 
-### Testing Against Empty Vault
+### File Operations
 
 ```bash
-# Start with fresh empty vault
-node ${CLAUDE_PLUGIN_ROOT}/scripts/obsidian-start.js --empty
-# Output: { "port": 9223, "vault": "/tmp/obsidian-vault-9223", ... }
+# Read a file
+obsidian read file=MyNote
 
-# Test plugin behaviour with no data
-node ${CLAUDE_PLUGIN_ROOT}/scripts/obsidian-command.js --port 9223 'flow:process-inbox'
+# Create a file with content
+obsidian create name=Test path=folder/Test.md content="Hello world"
 
-# Verify empty state handling
-node ${CLAUDE_PLUGIN_ROOT}/scripts/obsidian-screenshot.js --port 9223
+# Search the vault
+obsidian search query="TODO" path=Projects
+obsidian search:context query="function.*export"
 
-# Clean up (also removes temp vault)
-node ${CLAUDE_PLUGIN_ROOT}/scripts/obsidian-stop.js --port 9223
+# Append to daily note
+obsidian daily:append content="- Task from CLI"
 ```
 
-### Parallel Testing (Multiple Agents)
-
-Each agent uses a different port:
+### Inspecting State
 
 ```bash
-# Agent 1
-node ${CLAUDE_PLUGIN_ROOT}/scripts/obsidian-start.js --empty --port 9223
+# Vault info
+obsidian vault
 
-# Agent 2
-node ${CLAUDE_PLUGIN_ROOT}/scripts/obsidian-start.js --empty --port 9224
+# List files
+obsidian files ext=md
 
-# Agent 3 (port auto-increments if 9225 busy)
-node ${CLAUDE_PLUGIN_ROOT}/scripts/obsidian-start.js --empty --port 9225
+# Check properties
+obsidian properties file=MyNote
+
+# View workspace layout
+obsidian workspace
 ```
-
-## Error Handling
-
-**"No manifest.json found"**
-- Run from the Obsidian plugin directory containing `manifest.json`
-
-**"Could not connect to CDP"**
-- Start an instance first with `obsidian-start.js`
-- Check the correct port is specified
-
-**"Vault path does not exist"**
-- Verify the `--vault` path is correct
-- Use `--empty` for a fresh vault
-
-**"No free port found"**
-- Stop existing instances with `obsidian-stop.js`
-- Specify a different port range
-
-**Trust dialog blocking plugins**
-- On first vault open, Obsidian shows "Do you trust the author of this vault?"
-- Take a screenshot to check if this dialog is present
-- Click the trust button via JS:
-  ```bash
-  node ${CLAUDE_PLUGIN_ROOT}/scripts/obsidian-eval.js --port 9223 \
-    'Array.from(document.querySelectorAll("button")).find(b => b.textContent.includes("Trust"))?.click()'
-  ```
-- Wait a moment then verify plugin commands are available
-
-## Architecture Notes
-
-- Each test instance uses an isolated user-data-dir in `/tmp/obsidian-test-<port>/`
-- Empty vaults are created in `/tmp/obsidian-vault-<port>/`
-- The plugin from the current directory is symlinked (not copied) so changes reflect immediately after Obsidian reload
-- CDP enables full control: screenshots, JS execution, DOM inspection
-- Multiple instances can run simultaneously on different ports

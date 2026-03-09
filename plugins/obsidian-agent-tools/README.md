@@ -1,15 +1,14 @@
 # obsidian-agent-tools
 
-[Chrome DevTools Protocol](https://chromedevtools.github.io/devtools-protocol/) (CDP) tools for Obsidian plugin development. 
+[Obsidian CLI](https://help.obsidian.md/cli) tools for plugin development and vault automation.
 
-- Take screenshots, execute commands, and evaluate JavaScript.
-- Runs an isolated instance of Obsidian to avoid interfering with your main setup.
+- Take screenshots, execute commands, evaluate JavaScript, manage files
+- Uses the native `obsidian` CLI — no dependencies required
 
-## Platform Support
+## Prerequisites
 
-- **macOS** - Full support
-- **Linux** - Not yet supported (see [#3](https://github.com/tavva/ben-claude-plugins/issues/3))
-- **Windows** - Not yet supported (see [#2](https://github.com/tavva/ben-claude-plugins/issues/2))
+- Obsidian 1.12+ running
+- CLI registered via Settings → General → Command line interface
 
 ## Installation
 
@@ -17,50 +16,24 @@
 /plugin install obsidian-agent-tools@ben-claude-plugins
 ```
 
-Then install dependencies (once), although Claude Code will typically do this itself:
-
-```bash
-cd ${CLAUDE_PLUGIN_ROOT} && npm install
-```
-
 ## Quick Start
 
-You can trigger these tools with phrases such as "Open Obsidian" or "Test x in Obsidian".
+Trigger with phrases like "Open Obsidian", "Test x in Obsidian", or "Take an Obsidian screenshot".
 
-In the CLAUDE.MD file for your plugin, explain that the agent can test your plugin by opening Obsidian using the obsidian-agent-tools skill, and it should use it when necessary.
+In your plugin's CLAUDE.md, explain that the agent can test your plugin using the obsidian-agent-tools skill.
 
-## Tools
+## What It Can Do
 
-| Script | Purpose |
-|--------|---------|
-| `obsidian-start.js` | Launch isolated Obsidian instance with CDP |
-| `obsidian-stop.js` | Stop instance and clean up temp files |
-| `obsidian-screenshot.js` | Capture window to temp file |
-| `obsidian-command.js` | Execute Obsidian commands by ID |
-| `obsidian-eval.js` | Run JavaScript in Obsidian context |
+The CLI covers the full Obsidian feature set. Run `obsidian help` for the complete command list.
 
-## Options
-
-### obsidian-start.js
-
-- `--vault <path>` - Use existing vault with test data
-- `--empty` - Create fresh empty vault in temp directory
-- `--port <number>` - CDP port (default: 9223, auto-increments if busy)
-
-### obsidian-stop.js / screenshot / command / eval
-
-- `--port <number>` - CDP port of running instance
-
-### obsidian-command.js
-
-- `--list` - List all available commands
-
-## How It Works
-
-- Each test instance uses an isolated user-data-dir in `/tmp/obsidian-test-<port>/`
-- Empty vaults are created in `/tmp/obsidian-vault-<port>/`
-- Your plugin is symlinked (not copied) so changes reflect after Obsidian reload
-- Multiple instances can run simultaneously on different ports
+- **Files** — create, read, open, append, prepend, move, rename, delete
+- **Search** — full-text search with context
+- **Daily notes** — open, read, append, prepend
+- **Properties** — read, set, remove frontmatter
+- **Tasks** — list, filter, toggle status
+- **Plugins** — list, enable, disable, install, reload
+- **Commands** — list and execute any command
+- **Developer** — screenshots, JS eval, DOM inspection, console logs
 
 ## Licence
 

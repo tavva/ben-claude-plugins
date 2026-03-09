@@ -1,40 +1,28 @@
 # AGENTS.md
 
-CDP (Chrome DevTools Protocol) tools for Obsidian plugin development and testing. Launches isolated Obsidian instances with debugging enabled for automated testing.
+Obsidian CLI tools for plugin development, testing, and vault automation. Uses the `obsidian` CLI (requires Obsidian 1.12+) to control a running instance.
 
-## Install Dependencies
+## Prerequisites
 
-```bash
-npm install
-```
+- Obsidian 1.12+ running
+- CLI registered via Settings → General → Command line interface
 
-## Available Scripts
-
-Run from an Obsidian plugin directory containing `manifest.json`:
+## Quick Reference
 
 ```bash
-# Start isolated Obsidian instance
-node scripts/obsidian-start.js --vault ~/path/to/vault
-node scripts/obsidian-start.js --empty
+# Get help
+obsidian help
+obsidian help <command>
 
-# Take screenshot (outputs temp file path)
-node scripts/obsidian-screenshot.js --port 9223
+# Plugin development
+obsidian plugin:reload id=my-plugin
+obsidian dev:screenshot
+obsidian command id=my-plugin:command-name
+obsidian eval code="app.plugins.plugins['my-plugin'].settings"
+obsidian dev:errors
 
-# Execute JavaScript in Obsidian context
-node scripts/obsidian-eval.js --port 9223 'app.vault.getName()'
-
-# Run Obsidian command
-node scripts/obsidian-command.js --port 9223 'plugin:command-id'
-node scripts/obsidian-command.js --port 9223 --list
-
-# Stop instance and cleanup
-node scripts/obsidian-stop.js --port 9223
+# File operations
+obsidian read file=MyNote
+obsidian create name=Test.md content="Hello"
+obsidian search query="TODO"
 ```
-
-## Architecture
-
-- Each test instance uses isolated user-data-dir in `/tmp/obsidian-test-<port>/`
-- Empty vaults created in `/tmp/obsidian-vault-<port>/`
-- Plugins are symlinked (not copied) so changes reflect after Obsidian reload
-- Multiple instances can run simultaneously on different ports (9223, 9224, etc.)
-- Scripts use ES modules (`"type": "module"` in package.json)
