@@ -740,7 +740,7 @@ digraph when_to_use {
 - Questions like "how do I know if my LLM is working?"
 
 **Not for:**
-- Langfuse setup, tracing, or observability (use langfuse-cli skill)
+- Langfuse setup, tracing, or observability (use the official `langfuse` skill)
 - Implementing evals (output spec to coding agent)
 - Generic testing that isn't LLM-specific
 
@@ -870,7 +870,7 @@ Push back when you see:
 
 After outputting the spec:
 
-"This eval design is ready for implementation. A coding agent can use the `langfuse-cli` skill to implement this using the Langfuse SDK."
+"This eval design is ready for implementation. A coding agent can use the official `langfuse` skill to implement this using the Langfuse SDK."
 
 Do NOT attempt to implement the eval. The skill outputs design specs only.
 

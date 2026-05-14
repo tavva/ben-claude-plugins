@@ -4,7 +4,7 @@
 
 A standalone Claude Code plugin that guides users through designing production-quality LLM evaluations. The skill acts as an eval expert consultant, outputting structured specs that a coding agent can implement using the Langfuse SDK/API.
 
-**Key constraint:** This skill designs evals, it does not implement them. Implementation is handled by a coding agent using the `langfuse-cli` skill.
+**Key constraint:** This skill designs evals, it does not implement them. Implementation is handled by a coding agent using the official `langfuse` skill.
 
 ## Plugin Structure
 

@@ -31,18 +31,10 @@
       "tags": ["browser", "automation", "rodney", "scraping"]
     },
     {
-      "name": "langfuse",
-      "description": "Query Langfuse LLM observability platform and manage prompts via the lf CLI",
-      "source": "./plugins/langfuse",
-      "version": "0.4.0",
-      "category": "observability",
-      "tags": ["langfuse", "llm", "observability", "tracing", "metrics", "prompts", "scores"]
-    },
-    {
       "name": "eval-designer",
       "description": "Design production-quality LLM evaluations for Langfuse",
       "source": "./plugins/eval-designer",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "category": "development",
       "tags": ["langfuse", "evals", "llm", "testing", "quality"]
     },
